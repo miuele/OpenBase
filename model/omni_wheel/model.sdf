@@ -22,7 +22,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/guir/model_editor_models/omni_wheel_model/rim.stl</uri>
+            <uri>model://omni_wheel/rim.stl</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>
@@ -49,7 +49,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/guir/model_editor_models/omni_wheel_model/rim.stl</uri>
+            <uri>model://omni_wheel/rim.stl</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>
@@ -120,7 +120,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/guir/model_editor_models/omni_wheel_model/roller.stl</uri>
+            <uri>model://omni_wheel/roller.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -146,7 +146,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/guir/model_editor_models/omni_wheel_model/roller.stl</uri>
+            <uri>model://omni_wheel/roller.stl</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>
@@ -217,7 +217,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/guir/model_editor_models/omni_wheel_model/roller.stl</uri>
+            <uri>model://omni_wheel/roller.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -243,7 +243,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/guir/model_editor_models/omni_wheel_model/roller.stl</uri>
+            <uri>model://omni_wheel/roller.stl</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>
@@ -315,7 +315,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/guir/model_editor_models/omni_wheel_model/roller.stl</uri>
+            <uri>model://omni_wheel/roller.stl</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>
@@ -342,7 +342,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/guir/model_editor_models/omni_wheel_model/roller.stl</uri>
+            <uri>model://omni_wheel/roller.stl</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>
@@ -414,7 +414,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/guir/model_editor_models/omni_wheel_model/roller.stl</uri>
+            <uri>model://omni_wheel/roller.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -440,7 +440,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/guir/model_editor_models/omni_wheel_model/roller.stl</uri>
+            <uri>model://omni_wheel/roller.stl</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>
@@ -512,7 +512,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/guir/model_editor_models/omni_wheel_model/roller.stl</uri>
+            <uri>model://omni_wheel/roller.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -538,7 +538,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/guir/model_editor_models/omni_wheel_model/roller.stl</uri>
+            <uri>model://omni_wheel/roller.stl</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>
@@ -610,7 +610,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/guir/model_editor_models/omni_wheel_model/roller.stl</uri>
+            <uri>model://omni_wheel/roller.stl</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>
@@ -637,7 +637,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/guir/model_editor_models/omni_wheel_model/roller.stl</uri>
+            <uri>model://omni_wheel/roller.stl</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>
@@ -709,7 +709,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/guir/model_editor_models/omni_wheel_model/roller.stl</uri>
+            <uri>model://omni_wheel/roller.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -735,7 +735,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/guir/model_editor_models/omni_wheel_model/roller.stl</uri>
+            <uri>model://omni_wheel/roller.stl</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>
@@ -807,7 +807,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/guir/model_editor_models/omni_wheel_model/roller.stl</uri>
+            <uri>model://omni_wheel/roller.stl</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>
@@ -834,7 +834,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/guir/model_editor_models/omni_wheel_model/roller.stl</uri>
+            <uri>model://omni_wheel/roller.stl</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>
