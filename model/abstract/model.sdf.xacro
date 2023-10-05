@@ -132,6 +132,7 @@
 						<spring_reference>0</spring_reference>
 						<spring_stiffness>0</spring_stiffness>
 						<damping>0</damping>
+						<friction>0.0001</friction>
 					</dynamics>
 				</axis>
 				<physics>
@@ -154,7 +155,11 @@
 		<xacro:body_omni_joint name="back_joint" child="omni_wheel_back_model::omni_wheel_rim_link"/>
 
 		<!--
-			<plugin name='omni_plugin' filename='/home/guir/gazebo/robot/mobile/wheel/3/omni/open_base/plugin/main/build/libmain.so'/>
+		<plugin name="omni_drive" filename="libgazebo_ros_omni_drive.so">
+			<joint>left_joint</joint>
+			<joint>right_joint</joint>
+			<joint>back_joint</joint>
+		</plugin>
 		-->
 	</model>
 </sdf>
