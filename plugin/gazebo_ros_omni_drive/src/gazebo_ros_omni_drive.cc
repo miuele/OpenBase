@@ -64,9 +64,9 @@ public:
 		{
 			std::lock_guard<std::mutex> lock(mutex_);
 
-			desired_wheel_speed_[0] = (-target_x_ - std::sqrt(3)*target_y_) / 2 + l*target_w_;
-			desired_wheel_speed_[1] = (-target_x_ + std::sqrt(3)*target_y_) / 2 + l*target_w_;
-			desired_wheel_speed_[2] = target_x_ + l*target_w_;
+			desired_wheel_speed_[0] = (-target_y_ - std::sqrt(3)*target_x_) / 2 + l*target_w_;
+			desired_wheel_speed_[1] = (-target_y_ + std::sqrt(3)*target_x_) / 2 + l*target_w_;
+			desired_wheel_speed_[2] = target_y_ + l*target_w_;
 		}
 
 		constexpr double wheel_radius = 0.1;
