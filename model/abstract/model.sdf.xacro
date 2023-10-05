@@ -154,12 +154,10 @@
 		<xacro:body_omni_joint name="right_joint" child="omni_wheel_right_model::omni_wheel_rim_link"/>
 		<xacro:body_omni_joint name="back_joint" child="omni_wheel_back_model::omni_wheel_rim_link"/>
 
-		<!--
 		<plugin name="omni_drive" filename="libgazebo_ros_omni_drive.so">
 			<joint>left_joint</joint>
 			<joint>right_joint</joint>
 			<joint>back_joint</joint>
 		</plugin>
-		-->
 	</model>
 </sdf>
