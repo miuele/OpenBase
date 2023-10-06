@@ -22,7 +22,7 @@
 				<pose>0 0 0 0 0 0</pose>
 				<geometry>
 					<mesh>
-						<uri>model://abstract/body_reduced.stl</uri>
+						<uri>model://openbase_omni3/body_reduced.stl</uri>
 						<scale>1 1 1</scale>
 					</mesh>
 				</geometry>
@@ -47,7 +47,7 @@
 				<pose>0 0 0 0 0 0</pose>
 				<geometry>
 					<mesh>
-						<uri>model://abstract/body_reduced.stl</uri>
+						<uri>model://openbase_omni3/body_reduced.stl</uri>
 						<scale>1 1 1</scale>
 					</mesh>
 				</geometry>
