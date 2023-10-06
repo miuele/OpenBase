@@ -35,6 +35,7 @@ add_xacro_model_file(simple_omni_wheel)
 add_xacro_model_file(simplified_omni3)
 add_xacro_model_file(damped_omni3)
 add_xacro_model_file(damped_omni4)
+add_xacro_model_file(nav_omni4)
 
 install(
 	DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/models
