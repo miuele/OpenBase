@@ -22,7 +22,7 @@
 				<pose>0 0 0 0 0 0</pose>
 				<geometry>
 					<mesh>
-						<uri>model://omni_wheel/body.stl</uri>
+						<uri>model://abstract/body_reduced.stl</uri>
 						<scale>1 1 1</scale>
 					</mesh>
 				</geometry>
@@ -47,7 +47,7 @@
 				<pose>0 0 0 0 0 0</pose>
 				<geometry>
 					<mesh>
-						<uri>model://omni_wheel/body.stl</uri>
+						<uri>model://abstract/body_reduced.stl</uri>
 						<scale>1 1 1</scale>
 					</mesh>
 				</geometry>
