@@ -5,65 +5,39 @@ project(openbase_gazebo_models)
 find_package(ament_cmake REQUIRED)
 find_package(xacro REQUIRED)
 
-add_custom_command(OUTPUT openbase_omni3.sdf
-	COMMAND xacro ${CMAKE_CURRENT_SOURCE_DIR}/models/openbase_omni3/model.sdf.xacro
-			> openbase_omni3.sdf
-	DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/models/openbase_omni3/model.sdf.xacro
-	)
+function(xacro_generator_target TARGET_NAME SOURCE_FILE DEST_FILE)
+	add_custom_command(OUTPUT "${DEST_FILE}"
+		COMMAND xacro "${SOURCE_FILE}" > "${DEST_FILE}"
+		DEPENDS "${SOURCE_FILE}"
+		VERBATIM
+		)
+	add_custom_target(${TARGET_NAME} ALL DEPENDS "${DEST_FILE}")
+endfunction()
 
-add_custom_target(openbase_omni3 ALL DEPENDS openbase_omni3.sdf)
+function(add_xacro_model_file MODEL_NAME)
+	xacro_generator_target(
+		${MODEL_NAME}
+		"${CMAKE_CURRENT_SOURCE_DIR}/models/${MODEL_NAME}/model.sdf.xacro"
+		"${CMAKE_CURRENT_BINARY_DIR}/${MODEL_NAME}.sdf"
+		)
 
-add_custom_command(OUTPUT simplified_omni3.sdf
-	COMMAND xacro ${CMAKE_CURRENT_SOURCE_DIR}/models/simplified_omni3/model.sdf.xacro
-			> simplified_omni3.sdf
-	DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/models/simplified_omni3/model.sdf.xacro
-	)
+	install(
+		FILES "${CMAKE_CURRENT_BINARY_DIR}/${MODEL_NAME}.sdf"
+		DESTINATION "share/${PROJECT_NAME}/models/${MODEL_NAME}"
+		RENAME model.sdf
+		)
 
-add_custom_target(simplified_omni3 ALL DEPENDS simplified_omni3.sdf)
+endfunction()
 
-add_custom_command(OUTPUT omni_wheel.sdf
-	COMMAND xacro ${CMAKE_CURRENT_SOURCE_DIR}/models/omni_wheel/model.sdf.xacro
-			> omni_wheel.sdf
-	DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/models/omni_wheel/model.sdf.xacro
-	)
-
-add_custom_target(omni_wheel ALL DEPENDS omni_wheel.sdf)
-
-add_custom_command(OUTPUT simple_omni_wheel.sdf
-	COMMAND xacro ${CMAKE_CURRENT_SOURCE_DIR}/models/simple_omni_wheel/model.sdf.xacro
-			> simple_omni_wheel.sdf
-	DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/models/simple_omni_wheel/model.sdf.xacro
-	)
-
-add_custom_target(simple_omni_wheel ALL DEPENDS simple_omni_wheel.sdf)
+add_xacro_model_file(openbase_omni3)
+add_xacro_model_file(omni_wheel)
+add_xacro_model_file(simple_omni_wheel)
+add_xacro_model_file(simplified_omni3)
+add_xacro_model_file(damped_omni3)
 
 install(
 	DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/models
 	DESTINATION share/${PROJECT_NAME}
-	)
-
-install(
-	FILES ${CMAKE_CURRENT_BINARY_DIR}/openbase_omni3.sdf
-	DESTINATION share/${PROJECT_NAME}/models/openbase_omni3
-	RENAME model.sdf
-	)
-
-install(
-	FILES ${CMAKE_CURRENT_BINARY_DIR}/omni_wheel.sdf
-	DESTINATION share/${PROJECT_NAME}/models/omni_wheel
-	RENAME model.sdf
-	)
-
-install(
-	FILES ${CMAKE_CURRENT_BINARY_DIR}/simple_omni_wheel.sdf
-	DESTINATION share/${PROJECT_NAME}/models/simple_omni_wheel
-	RENAME model.sdf
-	)
-
-install(
-	FILES ${CMAKE_CURRENT_BINARY_DIR}/simplified_omni3.sdf
-	DESTINATION share/${PROJECT_NAME}/models/simplified_omni3
-	RENAME model.sdf
 	)
 
 ament_environment_hooks("${CMAKE_CURRENT_SOURCE_DIR}/env-hooks/${PROJECT_NAME}.dsv.in")
