@@ -101,26 +101,26 @@
 		<include>
 			<name>omni_wheel_left_model</name>
 			<uri>model://omni_wheel</uri>
-			<pose>-0.03464101615 0.02 0 0 -0 2.617993877991494</pose>
+			<pose>${0.04*cos(pi*5/6)} ${0.04*sin(pi*5/6)} 0 0 0 ${pi*5/6}</pose>
 		</include>
 
 		<include>
 			<name>omni_wheel_right_model</name>
 			<uri>model://omni_wheel</uri>
-			<pose>0 -0.04 0 0 -0 4.71238898038469</pose>
+			<pose>${0.04*cos(pi*3/2)} ${0.04*sin(pi*3/2)} 0 0 0 ${pi*3/2}</pose>
 		</include>
 
 		<include>
 			<name>omni_wheel_back_model</name>
 			<uri>model://omni_wheel</uri>
-			<pose>0.03464101615 0.02 0 0 -0 0.52359877559829</pose>
+			<pose>${0.04*cos(pi/6)} ${0.04*sin(pi/6)} 0 0 0 ${pi/6}</pose>
 		</include>
 
 		<xacro:macro name="body_omni_joint" params="name child">
 			<joint name='${name}' type='revolute'>
 				<parent>body_link</parent>
 				<child>${child}</child>
-				<pose>0 0 0 3.14159 -1.57079 3.14159</pose>
+				<pose>0 0 0 ${pi} ${-pi/2} ${pi}</pose>
 				<axis>
 					<xyz>0 0 1</xyz>
 					<use_parent_model_frame>0</use_parent_model_frame>
