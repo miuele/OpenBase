@@ -1,5 +1,6 @@
 #include <functional>
 #include <memory>
+#include <vector>
 
 #include <gazebo/gazebo.hh>
 #include <gazebo/physics/physics.hh>
@@ -49,7 +50,7 @@ public:
 			joints_.push_back(joint);
 		}
 
-		desired_wheel_speed_.assign(3, 0.0);
+		desired_wheel_speed_.assign(std::size(joints_), 0.0);
 
 		conn_world_update_ = event::Events::ConnectWorldUpdateBegin(
 				std::bind(&GazeboRosOmniDrive::OnUpdate, this, std::placeholders::_1));
@@ -66,12 +67,19 @@ public:
 		{
 			std::lock_guard<std::mutex> lock(mutex_);
 
-			desired_wheel_speed_[0] = (-target_y_ - std::sqrt(3)*target_x_) / 2 + l*target_w_;
-			desired_wheel_speed_[1] = (-target_y_ + std::sqrt(3)*target_x_) / 2 + l*target_w_;
-			desired_wheel_speed_[2] = target_y_ + l*target_w_;
+			if (std::size(joints_) == 3) {
+				desired_wheel_speed_[0] = (-std::sqrt(3)*target_x_ - target_y_ ) / 2 + l*target_w_;
+				desired_wheel_speed_[1] = ( std::sqrt(3)*target_x_ - target_y_ ) / 2 + l*target_w_;
+				desired_wheel_speed_[2] = target_y_ + l*target_w_;
+			} else if (std::size(joints_) == 4) {
+				desired_wheel_speed_[0] = (-target_x_ + target_y_) / std::sqrt(2) + l*target_w_;
+				desired_wheel_speed_[1] = ( target_x_ + target_y_) / std::sqrt(2) + l*target_w_;
+				desired_wheel_speed_[2] = (-target_x_ - target_y_) / std::sqrt(2) + l*target_w_;
+				desired_wheel_speed_[3] = ( target_x_ - target_y_) / std::sqrt(2) + l*target_w_;
+			}
 		}
 
-		for (std::size_t i = 0; i < 3; ++i) {
+		for (std::size_t i = 0; i < std::size(joints_); ++i) {
 			joints_[i]->SetParam("vel", 0, desired_wheel_speed_[i] / wheel_radius_);
 		}
 
