@@ -27,6 +27,8 @@ public:
 
 		update_period_ = update_rate > 0.0 ? (1.0 / update_rate) : 0.0;
 
+		wheel_radius_ = sdf->Get<double>("wheel_radius");
+
 		cmd_vel_sub_ = ros_node_->create_subscription<geometry_msgs::msg::Twist>(
 				"cmd_vel", qos.get_subscription_qos("cmd_vel", rclcpp::QoS(1)),
 				std::bind(&GazeboRosOmniDrive::OnCmdVel, this, std::placeholders::_1)
@@ -59,7 +61,7 @@ public:
 			return;
 		}
 
-		constexpr double l = 0.3;
+		constexpr double l = 0.15;
 
 		{
 			std::lock_guard<std::mutex> lock(mutex_);
@@ -69,10 +71,8 @@ public:
 			desired_wheel_speed_[2] = target_y_ + l*target_w_;
 		}
 
-		constexpr double wheel_radius = 0.1;
-
 		for (std::size_t i = 0; i < 3; ++i) {
-			joints_[i]->SetParam("vel", 0, desired_wheel_speed_[i] / wheel_radius);
+			joints_[i]->SetParam("vel", 0, desired_wheel_speed_[i] / wheel_radius_);
 		}
 
 		last_update_time_ = info.simTime;
@@ -91,6 +91,8 @@ private:
 	event::ConnectionPtr conn_world_update_;
 	common::Time last_update_time_;
 	double update_period_;
+
+	double wheel_radius_;
 
 	std::vector<physics::JointPtr> joints_;
 	std::vector<double> desired_wheel_speed_;

@@ -160,6 +160,7 @@
 			<joint>left_joint</joint>
 			<joint>right_joint</joint>
 			<joint>back_joint</joint>
+			<wheel_radius>0.1</wheel_radius>
 		</plugin>
 	</model>
 </sdf>
