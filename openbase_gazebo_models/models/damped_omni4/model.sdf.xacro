@@ -10,21 +10,20 @@
 				<mass>0.07862944645</mass>
 				<pose>0 0 0 0 0 0</pose>
 				<inertia>
-					<ixx>0.00002035985530754</ixx>
+					<ixx>0.00018035985530754</ixx>
 					<ixy>0</ixy>
 					<ixz>0</ixz>
-					<iyy>0.00002035985530754</iyy>
+					<iyy>0.00018035985530754</iyy>
 					<iyz>0</iyz>
-					<izz>0.00003945961663220</izz>
+					<izz>0.00018945961663220</izz>
 				</inertia>
 			</inertial>
 			<visual name='visual'>
 				<pose>0 0 0 0 0 0</pose>
 				<geometry>
-					<cylinder>
-						<radius>0.030</radius>
-						<length>0.015</length>
-					</cylinder>
+					<box>
+						<size>0.14 0.14 0.015</size>
+					</box>
 				</geometry>
 				<material>
 					<lighting>true</lighting>
@@ -46,10 +45,9 @@
 				<max_contacts>10</max_contacts>
 				<pose>0 0 0 0 0 0</pose>
 				<geometry>
-					<cylinder>
-						<radius>0.030</radius>
-						<length>0.015</length>
-					</cylinder>
+					<box>
+						<size>0.14 0.14 0.015</size>
+					</box>
 				</geometry>
 				<surface>
 					<friction>
@@ -101,25 +99,25 @@
 		<include>
 			<name>simple_omni_wheel_front_left_model</name>
 			<uri>model://simple_omni_wheel</uri>
-			<pose>${0.04*cos(pi*3/4)} ${0.04*sin(pi*3/4)} 0 0 0 ${pi*3/4}</pose>
-		</include>
-
-		<include>
-			<name>simple_omni_wheel_front_right_model</name>
-			<uri>model://simple_omni_wheel</uri>
-			<pose>${0.04*cos(pi*1/4)} ${0.04*sin(pi*1/4)} 0 0 0 ${pi*1/4}</pose>
+			<pose>${0.12*cos(pi*1/4)} ${0.12*sin(pi*1/4)} 0 0 0 ${pi*1/4}</pose>
 		</include>
 
 		<include>
 			<name>simple_omni_wheel_back_left_model</name>
 			<uri>model://simple_omni_wheel</uri>
-			<pose>${0.04*cos(pi*5/4)} ${0.04*sin(pi*5/4)} 0 0 0 ${pi*5/4}</pose>
+			<pose>${0.12*cos(pi*3/4)} ${0.12*sin(pi*3/4)} 0 0 0 ${pi*3/4}</pose>
 		</include>
 
 		<include>
 			<name>simple_omni_wheel_back_right_model</name>
 			<uri>model://simple_omni_wheel</uri>
-			<pose>${0.04*cos(pi*7/4)} ${0.04*sin(pi*7/4)} 0 0 0 ${pi*7/4}</pose>
+			<pose>${0.12*cos(pi*5/4)} ${0.12*sin(pi*5/4)} 0 0 0 ${pi*5/4}</pose>
+		</include>
+
+		<include>
+			<name>simple_omni_wheel_front_right_model</name>
+			<uri>model://simple_omni_wheel</uri>
+			<pose>${0.12*cos(pi*7/4)} ${0.12*sin(pi*7/4)} 0 0 0 ${pi*7/4}</pose>
 		</include>
 
 		<xacro:macro name="body_omni_conn" params="prefix omni_link">

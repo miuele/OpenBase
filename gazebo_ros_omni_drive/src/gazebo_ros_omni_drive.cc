@@ -72,10 +72,10 @@ public:
 				desired_wheel_speed_[1] = ( std::sqrt(3)*target_x_ - target_y_ ) / 2 + l*target_w_;
 				desired_wheel_speed_[2] = target_y_ + l*target_w_;
 			} else if (std::size(joints_) == 4) {
-				desired_wheel_speed_[0] = (-target_x_ + target_y_) / std::sqrt(2) + l*target_w_;
-				desired_wheel_speed_[1] = ( target_x_ + target_y_) / std::sqrt(2) + l*target_w_;
-				desired_wheel_speed_[2] = (-target_x_ - target_y_) / std::sqrt(2) + l*target_w_;
-				desired_wheel_speed_[3] = ( target_x_ - target_y_) / std::sqrt(2) + l*target_w_;
+				desired_wheel_speed_[0] = (-target_x_ + target_y_ ) / std::sqrt(2) + l*target_w_;
+				desired_wheel_speed_[1] = ( target_x_ + target_y_ ) / std::sqrt(2) + l*target_w_;
+				desired_wheel_speed_[2] = (-target_x_ - target_y_ ) / std::sqrt(2) + l*target_w_;
+				desired_wheel_speed_[3] = ( target_x_ - target_y_ ) / std::sqrt(2) + l*target_w_;
 			}
 		}
 
