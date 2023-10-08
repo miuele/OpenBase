@@ -122,5 +122,10 @@
 			<child>camera_link</child>
 		</joint>
 
+		<plugin name="wheel_odometry" filename="libgazebo_ros_wheel_odometry.so">
+			<publish_odom_msg>true</publish_odom_msg>
+			<publish_tf>true</publish_tf>
+		</plugin>
+
 	</model>
 </sdf>
