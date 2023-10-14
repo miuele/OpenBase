@@ -195,7 +195,7 @@
 			<joint>front_right_rotational_joint</joint>
 			<joint>back_left_rotational_joint</joint>
 			<joint>back_right_rotational_joint</joint>
-			<wheel_radius>0.05</wheel_radius>
+			<wheel_radius>0.018</wheel_radius>
 		</plugin>
 	</model>
 </sdf>

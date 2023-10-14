@@ -81,7 +81,7 @@ public:
 
 		const auto qos = ros_node_->get_qos();
 
-		auto update_rate = sdf->Get<double>("update_rate", 0.0).first;
+		auto update_rate = sdf->Get<double>("update_rate", 100.0).first;
 
 		update_period_ = update_rate > 0.0 ? (1.0 / update_rate) : 0.0;
 		odom_frame_name_ = sdf->Get<std::string>("odom_frame", "odom").first;
@@ -135,6 +135,8 @@ public:
 		}
 
 		if (publish_tf_) {
+			init_tf_msg(tf_msg_, odom_frame_name_.c_str(), robot_base_frame_name_.c_str());
+
 			tf_msg_.header.stamp = current_time_msg;
 			
 			tf_msg_.transform.translation.x = odom.x;
