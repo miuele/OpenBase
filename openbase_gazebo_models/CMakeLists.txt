@@ -47,6 +47,7 @@ add_xacro_model_file(damped_omni3)
 add_xacro_model_file(damped_omni4)
 add_xacro_model_file(nav_omni4)
 add_xacro_model_file(unicycle_wheel)
+add_xacro_model_file(unicycle_wheel_2)
 add_xacro_model_file(indep_steer)
 
 add_xacro_model_file(primitive_omni_wheel)

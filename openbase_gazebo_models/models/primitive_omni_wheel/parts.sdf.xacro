@@ -172,8 +172,10 @@
 		</xacro:unless>
 	</xacro:macro>
 
-	<xacro:macro name="omni_wheel_model" params="name params">
+	<xacro:macro name="omni_wheel_model" params="name params **top_level_tags">
 		<model name="${name}">
+			<xacro:insert_block name="top_level_tags"/>
+
 			<xacro:omni_wheel_rim_link name="rim_link" radius="${params.rim_radius}" length="${params.rim_length}" mass="${params.rim_mass}" inertia="${params.rim_inertia}"/>
 
 			<xacro:omni_wheel_model_rollers i="0" params="${params}"/>
