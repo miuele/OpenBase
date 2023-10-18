@@ -187,7 +187,7 @@ public:
 
 			constexpr double l = 0.3;
 
-			for (std::size_t i = 0; i < 4; ++i) {
+			for (std::size_t i = 0; i < std::size(*unicycles_); ++i) {
 				double phi = indep_steer::pi*(3.0/4.0 + i/2.0);
 				double vx = target_x_ + l * target_w_ * std::sin(phi);
 				double vy = target_y_ - l * target_w_ * std::cos(phi);
