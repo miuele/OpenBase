@@ -5,21 +5,31 @@ project(openbase_gazebo_models)
 find_package(ament_cmake REQUIRED)
 find_package(xacro REQUIRED)
 
-function(xacro_generator_target TARGET_NAME SOURCE_FILE DEST_FILE)
+function(xacro_generator_target TARGET_NAME SOURCE_FILE DEST_FILE DEPENDS_FILE)
 	add_custom_command(OUTPUT "${DEST_FILE}"
 		COMMAND xacro "${SOURCE_FILE}" > "${DEST_FILE}"
-		DEPENDS "${SOURCE_FILE}"
+		DEPENDS "${SOURCE_FILE}" ${DEPENDS_FILE}
 		VERBATIM
 		)
 	add_custom_target(${TARGET_NAME} ALL DEPENDS "${DEST_FILE}")
 endfunction()
 
 function(add_xacro_model_file MODEL_NAME)
-	xacro_generator_target(
-		${MODEL_NAME}
-		"${CMAKE_CURRENT_SOURCE_DIR}/models/${MODEL_NAME}/model.sdf.xacro"
-		"${CMAKE_CURRENT_BINARY_DIR}/${MODEL_NAME}.sdf"
-		)
+	if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/models/${MODEL_NAME}/parts.sdf.xacro")
+		xacro_generator_target(
+			${MODEL_NAME}
+			"${CMAKE_CURRENT_SOURCE_DIR}/models/${MODEL_NAME}/model.sdf.xacro"
+			"${CMAKE_CURRENT_BINARY_DIR}/${MODEL_NAME}.sdf"
+			"${CMAKE_CURRENT_SOURCE_DIR}/models/${MODEL_NAME}/parts.sdf.xacro"
+			)
+	else()
+		xacro_generator_target(
+			${MODEL_NAME}
+			"${CMAKE_CURRENT_SOURCE_DIR}/models/${MODEL_NAME}/model.sdf.xacro"
+			"${CMAKE_CURRENT_BINARY_DIR}/${MODEL_NAME}.sdf"
+			""
+			)
+	endif()
 
 	install(
 		FILES "${CMAKE_CURRENT_BINARY_DIR}/${MODEL_NAME}.sdf"
@@ -38,6 +48,9 @@ add_xacro_model_file(damped_omni4)
 add_xacro_model_file(nav_omni4)
 add_xacro_model_file(unicycle_wheel)
 add_xacro_model_file(indep_steer)
+
+add_xacro_model_file(primitive_omni_wheel)
+add_xacro_model_file(omni4)
 
 install(
 	DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/models

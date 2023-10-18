@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<sdf version="1.7" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+	<xacro:include filename="parts.sdf.xacro"/>
+
+	<!--
+	<xacro:property name="omni_wheel_params" value="${
+		xacro.dotify(dict(
+			rim_radius=0.018, rim_length=0.01,
+			roller_radius=0.0049, roller_length=0.01,
+			rim_inner_radius=0.01355, rim_inner_length=0.0055,
+			rim_mass=0.00835758, roller_mass=0.00313845,
+			num_rollers=4
+		)) }"/>
+	-->
+
+	<xacro:property name="omni_wheel_params" value="${
+		xacro.dotify(dict(
+			rim_radius=0.06, rim_length=0.025,
+			roller_radius=0.008, roller_length=0.020,
+			rim_inner_radius=0.055, rim_inner_length=0.008,
+			rim_mass=0.30, roller_mass=0.01,
+			num_rollers=8
+		)) }"/>
+
+	<!--
+	<xacro:property name="omni_wheel_params" value="${
+		xacro.dotify(dict(
+			rim_radius=0.06, rim_length=0.029,
+			roller_radius=0.012, roller_length=0.030,
+			rim_inner_radius=0.050, rim_inner_length=0.008,
+			rim_mass=0.30, roller_mass=0.03,
+			num_rollers=4
+		)) }"/>
+	-->
+
+	<xacro:omni_wheel_model name="primitive_omni_wheel_model" params="${
+		xacro.dotify(
+			omni_wheel_params | dict(
+				rim_inertia=cylinder_inertia(
+					omni_wheel_params.rim_mass,
+					omni_wheel_params.rim_radius,
+					omni_wheel_params.rim_length
+				),
+				roller_inertia=cylinderical_tube_inertia(
+					omni_wheel_params.roller_mass,
+					0.4 * omni_wheel_params.roller_radius,
+					omni_wheel_params.roller_radius,
+					omni_wheel_params.roller_length
+				)
+			)) }"/>
+
+</sdf>

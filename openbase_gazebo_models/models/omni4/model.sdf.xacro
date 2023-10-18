@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<sdf version="1.7" xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<model name="omni4_model">
+
+		<xacro:include filename="../primitive_omni_wheel/parts.sdf.xacro"/>
+		<xacro:property name="box_mass" value="4.0"/>
+		<xacro:property name="box_geom" value="${xacro.dotify(dict(wx=0.54, wy=0.54, wz=0.06))}"/>
+		<xacro:property name="box_inertia" value="${xacro.dotify(cuboid_inertia(box_mass, box_geom.wx, box_geom.wy, box_geom.wz))}"/>
+
+		<xacro:property name="box_r" value="${hypot(box_geom.wx/2, box_geom.wy/2)}"/>
+
+		<pose>0 0 0.2 0 0 0</pose>
+
+		<link name='body_link'>
+			<inertial>
+				<mass>${box_mass}</mass>
+				<xacro:inertia_block inertia="${box_inertia}"/>
+			</inertial>
+			<visual name='visual'>
+				<geometry>
+					<box>
+						<size>${box_geom.wx} ${box_geom.wy} ${box_geom.wz}</size>
+					</box>
+				</geometry>
+				<material>
+					<script>
+						<uri>file://media/materials/scripts/gazebo.material</uri>
+						<name>Gazebo/Grey</name>
+					</script>
+				</material>
+			</visual>
+			<collision name='collision'>
+				<geometry>
+					<box>
+						<size>${box_geom.wx} ${box_geom.wy} ${box_geom.wz}</size>
+					</box>
+				</geometry>
+			</collision>
+		</link>
+
+		<include>
+			<name>simple_omni_wheel_front_left_model</name>
+			<uri>model://primitive_omni_wheel</uri>
+			<pose>${box_r*cos(pi*1/4)} ${box_r*sin(pi*1/4)} 0 0 0 ${pi*3/4}</pose>
+		</include>
+
+		<include>
+			<name>simple_omni_wheel_back_left_model</name>
+			<uri>model://primitive_omni_wheel</uri>
+			<pose>${box_r*cos(pi*3/4)} ${box_r*sin(pi*3/4)} 0 0 0 ${pi*5/4}</pose>
+		</include>
+
+		<include>
+			<name>simple_omni_wheel_back_right_model</name>
+			<uri>model://primitive_omni_wheel</uri>
+			<pose>${box_r*cos(pi*5/4)} ${box_r*sin(pi*5/4)} 0 0 0 ${pi*7/4}</pose>
+		</include>
+
+		<include>
+			<name>simple_omni_wheel_front_right_model</name>
+			<uri>model://primitive_omni_wheel</uri>
+			<pose>${box_r*cos(pi*7/4)} ${box_r*sin(pi*7/4)} 0 0 0 ${pi*1/4}</pose>
+		</include>
+
+		<xacro:macro name="body_omni_conn" params="prefix omni_link">
+				<!--
+			<joint name='${prefix}_linear_joint' type='fixed'>
+				<parent>body_link</parent>
+				<child>${prefix}_wheel_base_link</child>
+				<axis>
+					<limit>
+						<lower>-0.1</lower>
+						<upper>0.1</upper>
+					</limit>
+					<dynamics>
+						<spring_reference>0.0</spring_reference>
+						<spring_stiffness>2000.0</spring_stiffness>
+						<damping>5.0</damping>
+					</dynamics>
+					<xyz>0 0 1</xyz>
+				</axis>
+				<physics>
+					<ode>
+						<implicit_spring_damper>true</implicit_spring_damper>
+					</ode>
+				</physics>
+			</joint>
+			<link name='${prefix}_wheel_base_link'>
+				<inertial>
+					<mass>0.001</mass>
+					<inertia>
+						<ixx>0.00001</ixx>
+						<ixy>0</ixy>
+						<ixz>0</ixz>
+						<iyy>0.00001</iyy>
+						<iyz>0</iyz>
+						<izz>0.00001</izz>
+					</inertia>
+				</inertial>
+			</link>
+				-->
+			<joint name='${prefix}_rotational_joint' type='revolute'>
+				<!--<parent>${prefix}_wheel_base_link</parent>-->
+				<parent>body_link</parent>
+				<child>${omni_link}</child>
+				<axis>
+					<xyz>0 0 1</xyz>
+					<dynamics>
+						<spring_reference>0</spring_reference>
+						<spring_stiffness>0</spring_stiffness>
+						<damping>0</damping>
+						<friction>0.0001</friction>
+					</dynamics>
+				</axis>
+				<physics>
+					<ode>
+						<limit>
+							<cfm>0</cfm>
+							<erp>0.2</erp>
+						</limit>
+						<suspension>
+							<cfm>0</cfm>
+							<erp>0.2</erp>
+						</suspension>
+					</ode>
+				</physics>
+			</joint>
+		</xacro:macro>
+
+		<xacro:body_omni_conn prefix="front_left" omni_link="simple_omni_wheel_front_left_model::rim_link"/>
+		<xacro:body_omni_conn prefix="front_right" omni_link="simple_omni_wheel_front_right_model::rim_link"/>
+		<xacro:body_omni_conn prefix="back_left" omni_link="simple_omni_wheel_back_left_model::rim_link"/>
+		<xacro:body_omni_conn prefix="back_right" omni_link="simple_omni_wheel_back_right_model::rim_link"/>
+
+		<plugin name="omni_drive" filename="libgazebo_ros_omni_drive.so">
+			<joint>front_left_rotational_joint</joint>
+			<joint>front_right_rotational_joint</joint>
+			<joint>back_left_rotational_joint</joint>
+			<joint>back_right_rotational_joint</joint>
+			<wheel_radius>0.06</wheel_radius>
+		</plugin>
+	</model>
+</sdf>

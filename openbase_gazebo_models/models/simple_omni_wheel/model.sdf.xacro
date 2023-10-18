@@ -128,23 +128,23 @@
 		<xacro:omni_wheel_roller_link name="omni_wheel_roller_e_link">
 			<pose>-0.0055 0.01355 0 0 -0 0</pose>
 		</xacro:omni_wheel_roller_link>
-		<xacro:omni_wheel_roller_link name="omni_wheel_roller_ne_link">
-			<pose>0.0055 0.009581 0.009581 ${pi*1/4} -0 0</pose>
-		</xacro:omni_wheel_roller_link>
 		<xacro:omni_wheel_roller_link name="omni_wheel_roller_n_link">
 			<pose>-0.0055 0 0.01355 ${pi*2/4} -0 0</pose>
-		</xacro:omni_wheel_roller_link>
-		<xacro:omni_wheel_roller_link name="omni_wheel_roller_nw_link">
-			<pose>0.0055 -0.009581 0.009581 ${pi*3/4} -0 0</pose>
 		</xacro:omni_wheel_roller_link>
 		<xacro:omni_wheel_roller_link name="omni_wheel_roller_w_link">
 			<pose>-0.0055 -0.01355 0 ${-pi} 0 0</pose>
 		</xacro:omni_wheel_roller_link>
-		<xacro:omni_wheel_roller_link name="omni_wheel_roller_sw_link">
-			<pose>0.0055 -0.009581 -0.009581 ${-pi*3/4} 0 0</pose>
-		</xacro:omni_wheel_roller_link>
 		<xacro:omni_wheel_roller_link name="omni_wheel_roller_s_link">
 			<pose>-0.0055 0 -0.01355 ${-pi*2/4} 0 0</pose>
+		</xacro:omni_wheel_roller_link>
+		<xacro:omni_wheel_roller_link name="omni_wheel_roller_ne_link">
+			<pose>0.0055 0.009581 0.009581 ${pi*1/4} -0 0</pose>
+		</xacro:omni_wheel_roller_link>
+		<xacro:omni_wheel_roller_link name="omni_wheel_roller_nw_link">
+			<pose>0.0055 -0.009581 0.009581 ${pi*3/4} -0 0</pose>
+		</xacro:omni_wheel_roller_link>
+		<xacro:omni_wheel_roller_link name="omni_wheel_roller_sw_link">
+			<pose>0.0055 -0.009581 -0.009581 ${-pi*3/4} 0 0</pose>
 		</xacro:omni_wheel_roller_link>
 		<xacro:omni_wheel_roller_link name="omni_wheel_roller_se_link">
 			<pose>0.0055 0.009581 -0.009581 ${-pi*1/4} 0 0</pose>

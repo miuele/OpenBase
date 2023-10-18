@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<sdf version="1.7">
+	<model name="primitive_omni_wheel_test_model">
+		<include>
+			<name>primitive_omni_wheel_model</name>
+			<uri>model://primitive_omni_wheel</uri>
+			<pose>0 0 0.1 0 0 0</pose>
+		</include>
+	</model>
+</sdf>

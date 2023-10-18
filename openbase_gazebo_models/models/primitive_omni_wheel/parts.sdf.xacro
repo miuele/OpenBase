@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<sdf version="1.7" xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<xacro:property name="cylinder_inertia" value="${
+		lambda m, r, h: dict(
+		ixx=1/12*m*(3*r**2 + h**2),
+		ixy=0,
+		ixz=0,
+		iyy=1/12*m*(3*r**2 + h**2),
+		iyz=0,
+		izz=1/2*m*(r**2)
+		) }"/>
+
+	<xacro:property name="cylinderical_tube_inertia" value="${
+		lambda m, r1, r2, h: dict(
+		ixx=1/12*m*(3*(r1**2 + r2**2) + h**2),
+		ixy=0,
+		ixz=0,
+		iyy=1/12*m*(3*(r1**2 + r2**2) + h**2),
+		iyz=0,
+		izz=1/2*m*(r1**2 + r2**2)
+		) }"/>
+	
+	<xacro:property name="cuboid_inertia" value="${
+		lambda m, wx, wy, wz: dict(
+		ixx=1/12*m*(wy**2 + wz**2),
+		ixy=0,
+		ixz=0,
+		iyy=1/12*m*(wz**2 + wx**2),
+		iyz=0,
+		izz=1/12*m*(wx**2 + wy**2),
+		) }"/>
+
+	<xacro:macro name="inertia_block" params="inertia">
+		<inertia>
+			<ixx>${inertia.ixx}</ixx>
+			<ixy>${inertia.ixy}</ixy>
+			<ixz>${inertia.ixz}</ixz>
+			<iyy>${inertia.iyy}</iyy>
+			<iyz>${inertia.iyz}</iyz>
+			<izz>${inertia.izz}</izz>
+		</inertia>
+	</xacro:macro>
+
+
+	<xacro:macro name="omni_wheel_rim_link" params="name radius length mass inertia">
+		<link name="${name}">
+			<pose>0 0 0 ${pi/2} 0 0</pose>
+			<inertial>
+				<mass>${mass}</mass>
+				<xacro:inertia_block inertia="${inertia}"/>
+			</inertial>
+			<visual name="visual">
+				<geometry>
+					<cylinder>
+						<radius>${radius}</radius>
+						<length>${length}</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<script>
+						<uri>file://media/materials/scripts/gazebo.material</uri>
+						<name>Gazebo/Grey</name>
+					</script>
+				</material>
+			</visual>
+			<collision name="collision">
+				<geometry>
+					<cylinder>
+						<radius>${radius}</radius>
+						<length>${length}</length>
+					</cylinder>
+				</geometry>
+				<surface>
+					<friction>
+						<ode>
+							<mu>1</mu>
+							<mu2>1</mu2>
+							<fdir1>0 0 0</fdir1>
+							<slip1>0</slip1>
+							<slip2>0</slip2>
+						</ode>
+					</friction>
+				</surface>
+			</collision>
+		</link>
+	</xacro:macro>
+
+	<xacro:macro name="omni_wheel_roller_link" params="name radius length mass inertia *pose">
+		<link name="${name}">
+			<xacro:insert_block name="pose"/>
+			<inertial>
+				<mass>${mass}</mass>
+				<xacro:inertia_block inertia="${inertia}"/>
+			</inertial>
+			<visual name="visual">
+				<geometry>
+					<cylinder>
+						<radius>${radius}</radius>
+						<length>${length}</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<script>
+						<uri>file://media/materials/scripts/gazebo.material</uri>
+						<name>Gazebo/Black</name>
+					</script>
+				</material>
+			</visual>
+			<collision name="collision">
+				<geometry>
+					<cylinder>
+						<radius>${radius}</radius>
+						<length>${length}</length>
+					</cylinder>
+				</geometry>
+				<surface>
+					<friction>
+						<ode>
+							<mu>1</mu>
+							<mu2>1</mu2>
+							<fdir1>0 0 0</fdir1>
+							<slip1>0</slip1>
+							<slip2>0</slip2>
+						</ode>
+					</friction>
+				</surface>
+			</collision>
+		</link>
+	</xacro:macro>
+
+	<xacro:macro name="omni_wheel_joint" params="name rim_link_name roller_link_name">
+		<joint name="${name}" type="revolute">
+			<parent>${rim_link_name}</parent>
+			<child>${roller_link_name}</child>
+			<axis>
+				<xyz>0 0 1</xyz>
+				<dynamics>
+					<spring_reference>0</spring_reference>
+					<spring_stiffness>0</spring_stiffness>
+					<damping>0</damping>
+					<friction>0.001</friction>
+				</dynamics>
+			</axis>
+		</joint>
+	</xacro:macro>
+
+	<xacro:macro name="omni_wheel_model_rollers" params="i params">
+		<xacro:unless value="${i == params.num_rollers}">
+
+			<xacro:macro name="omni_wheel_roller_and_joint" params="face">
+
+				<xacro:property name="delta" value="${2*pi/params.num_rollers}"/>
+				<xacro:property name="theta" value="${i * delta}" lazy_eval="false"/>
+				<xacro:unless value="${face == 'h'}">
+					<xacro:property name="theta" value="${theta + delta/2}" lazy_eval="false"/>
+				</xacro:unless>
+
+				<xacro:property name="j" value="${0 if face == 'h' else 1}"/>
+
+				<xacro:omni_wheel_roller_link name="roller_link_${j}_${i}" radius="${params.roller_radius}" length="${params.roller_length}" mass="${params.roller_mass}" inertia="${params.roller_inertia}">
+					<pose>${cos(theta) * params.rim_inner_radius} ${(1 if face == 'h' else -1) * params.rim_inner_length} ${sin(theta) * params.rim_inner_radius} 0 ${-theta} 0</pose>
+				</xacro:omni_wheel_roller_link>
+				<xacro:omni_wheel_joint name="omni_wheel_joint_${j}_${i}" rim_link_name="rim_link" roller_link_name="roller_link_${j}_${i}"/>
+
+			</xacro:macro>
+
+			<xacro:omni_wheel_roller_and_joint face="h"/>
+			<xacro:omni_wheel_roller_and_joint face="t"/>
+
+			<xacro:omni_wheel_model_rollers i="${i + 1}" params="${params}"/>
+
+		</xacro:unless>
+	</xacro:macro>
+
+	<xacro:macro name="omni_wheel_model" params="name params">
+		<model name="${name}">
+			<xacro:omni_wheel_rim_link name="rim_link" radius="${params.rim_radius}" length="${params.rim_length}" mass="${params.rim_mass}" inertia="${params.rim_inertia}"/>
+
+			<xacro:omni_wheel_model_rollers i="0" params="${params}"/>
+
+			<!--<static>true</static>-->
+		</model>
+	</xacro:macro>
+</sdf>
