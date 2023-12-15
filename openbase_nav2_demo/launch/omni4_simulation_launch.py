@@ -22,7 +22,7 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PythonExpression
+from launch.substitutions import LaunchConfiguration, PythonExpression, FileContent
 from launch_ros.actions import Node
 
 
@@ -31,7 +31,7 @@ def generate_launch_description():
     bringup_dir = get_package_share_directory('nav2_bringup')
     openbase_gazebo_models_dir = get_package_share_directory('openbase_gazebo_models')
     openbase_nav2_demo_dir = get_package_share_directory('openbase_nav2_demo')
-    launch_dir = os.path.join(openbase_nav2_demo_dir, 'launch')
+    launch_dir = os.path.join(bringup_dir, 'launch')
 
     # Create the launch configuration variables
     slam = LaunchConfiguration('slam')
@@ -51,6 +51,7 @@ def generate_launch_description():
     use_rviz = LaunchConfiguration('use_rviz')
     headless = LaunchConfiguration('headless')
     world = LaunchConfiguration('world')
+    urdf = LaunchConfiguration('urdf')
     pose = {'x': LaunchConfiguration('x_pose', default='-2.00'),
             'y': LaunchConfiguration('y_pose', default='-0.50'),
             'z': LaunchConfiguration('z_pose', default='0.01'),
@@ -148,6 +149,11 @@ def generate_launch_description():
         default_value=os.path.join(bringup_dir, 'worlds', 'world_only.model'),
         description='Full path to world model file to load')
 
+    declare_urdf_cmd = DeclareLaunchArgument(
+        'urdf',
+        default_value=os.path.join(openbase_nav2_demo_dir, 'urdf', 'nav_omni4.urdf'),
+        description="Full path to urdf file to load")
+
     declare_robot_name_cmd = DeclareLaunchArgument(
         'robot_name',
         default_value='nav_omni4',
@@ -171,10 +177,6 @@ def generate_launch_description():
         cmd=['gzclient'],
         cwd=[launch_dir], output='screen')
 
-    urdf = os.path.join(openbase_nav2_demo_dir, 'urdf', 'nav_omni4.urdf')
-    with open(urdf, 'r') as infp:
-        robot_description = infp.read()
-
     start_robot_state_publisher_cmd = Node(
         condition=IfCondition(use_robot_state_pub),
         package='robot_state_publisher',
@@ -183,7 +185,7 @@ def generate_launch_description():
         namespace=namespace,
         output='screen',
         parameters=[{'use_sim_time': use_sim_time,
-                     'robot_description': robot_description}],
+                     'robot_description': FileContent(urdf)}],
         remappings=remappings)
 
     start_gazebo_spawner_cmd = Node(
@@ -237,6 +239,7 @@ def generate_launch_description():
     ld.add_action(declare_use_rviz_cmd)
     ld.add_action(declare_simulator_cmd)
     ld.add_action(declare_world_cmd)
+    ld.add_action(declare_urdf_cmd)
     ld.add_action(declare_robot_name_cmd)
     ld.add_action(declare_robot_sdf_cmd)
     ld.add_action(declare_use_respawn_cmd)

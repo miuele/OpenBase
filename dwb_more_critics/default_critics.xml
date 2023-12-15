@@ -1,0 +1,8 @@
+<class_libraries>
+  <library path="dwb_more_critics">
+    <class type="dwb_more_critics::RotateToGoalPoseCritic" base_class_type="dwb_core::TrajectoryCritic">
+      <description>Bananas
+      </description>
+    </class>
+  </library>
+</class_libraries>
