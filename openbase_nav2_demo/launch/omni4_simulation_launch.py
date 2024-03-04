@@ -168,7 +168,7 @@ def generate_launch_description():
 
     declare_no_bt_cmd = DeclareLaunchArgument(
         'no_bt',
-        default_value=False,
+        default_value='False',
         description='start Navigation without bt')
 
     # Specify the actions
@@ -251,6 +251,7 @@ def generate_launch_description():
     ld.add_action(declare_robot_name_cmd)
     ld.add_action(declare_robot_sdf_cmd)
     ld.add_action(declare_use_respawn_cmd)
+    ld.add_action(declare_no_bt_cmd)
 
     # Add any conditioned actions
     ld.add_action(start_gazebo_server_cmd)
