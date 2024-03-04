@@ -81,7 +81,7 @@ public:
 
 		const auto qos = ros_node_->get_qos();
 
-		auto update_rate = sdf->Get<double>("update_rate", 100.0).first;
+		auto update_rate = sdf->Get<double>("update_rate", 30.0).first;
 
 		update_period_ = update_rate > 0.0 ? (1.0 / update_rate) : 0.0;
 		odom_frame_name_ = sdf->Get<std::string>("odom_frame", "odom").first;
