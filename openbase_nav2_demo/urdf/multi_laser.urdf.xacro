@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<robot name="multi_laser" xmlns:xacro="http://ros.org/wiki/xacro">
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="0.14 0.14 0.015"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <link name="base_footprint"/>
+
+    <joint name="base_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="base_footprint"/>
+        <origin xyz="0 0 -0.09" rpy="0 0 0"/>
+    </joint>
+
+    <link name="lidar_link1">
+        <visual>
+            <geometry>
+                <cylinder radius="0.006" length="0.01"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="lidar_joint1" type="fixed">
+        <parent link="base_link"/>
+        <child link="lidar_link1"/>
+        <origin xyz="0.1 0 0.06" rpy="0 0 0"/>
+    </joint>
+
+    <link name="lidar_link2">
+        <visual>
+            <geometry>
+                <cylinder radius="0.006" length="0.01"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="lidar_joint2" type="fixed">
+        <parent link="base_link"/>
+        <child link="lidar_link2"/>
+        <origin xyz="-0.1 0 0.06" rpy="0 0 3.14159"/>
+    </joint>
+
+    <link name="base_joint_scan">
+        <visual>
+            <geometry>
+                <cylinder radius="0.006" length="0.01"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="joint_scan_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="base_joint_scan"/>
+        <origin xyz="0 0 0.06" rpy="0 0 0"/>
+    </joint>
+
+    <link name="camera_link">
+        <visual>
+            <geometry>
+                <box size="0.01 0.015 0.01"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <link name="camera_depth_frame"/>
+
+    <joint name="camera_depth_joint" type="fixed">
+		<origin xyz="0 0 0" rpy="-${pi/2} 0 -${pi/2}"/>
+        <parent link="camera_link"/>
+        <child link="camera_depth_frame"/>
+    </joint>
+
+    <joint name="camera_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="camera_link"/>
+        <origin xyz="0.07 0 0.05" rpy="0 0 0"/>
+    </joint>
+</robot>

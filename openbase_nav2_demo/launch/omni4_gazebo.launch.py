@@ -31,7 +31,7 @@ def generate_launch_description():
     bringup_dir = get_package_share_directory('nav2_bringup')
     openbase_gazebo_models_dir = get_package_share_directory('openbase_gazebo_models')
     openbase_nav2_demo_dir = get_package_share_directory('openbase_nav2_demo')
-    launch_dir = os.path.join(openbase_nav2_demo_dir, 'launch')
+    launch_dir = os.path.join(bringup_dir, 'launch')
 
     # Create the launch configuration variables
     slam = LaunchConfiguration('slam')

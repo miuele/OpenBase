@@ -20,7 +20,7 @@ from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription
-from launch.conditions import IfCondition
+from launch.conditions import IfCondition, UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression, FileContent
 from launch_ros.actions import Node
@@ -60,6 +60,8 @@ def generate_launch_description():
             'Y': LaunchConfiguration('yaw', default='0.00')}
     robot_name = LaunchConfiguration('robot_name')
     robot_sdf = LaunchConfiguration('robot_sdf')
+
+    no_bt = LaunchConfiguration('no_bt')
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
     # In case of the transforms (tf), currently, there doesn't seem to be a better alternative
@@ -164,6 +166,11 @@ def generate_launch_description():
         default_value=os.path.join(openbase_gazebo_models_dir, 'models', 'nav_omni4', 'model.sdf'),
         description='Full path to robot sdf file to spawn the robot in gazebo')
 
+    declare_no_bt_cmd = DeclareLaunchArgument(
+        'no_bt',
+        default_value=False,
+        description='start Navigation without bt')
+
     # Specify the actions
     start_gazebo_server_cmd = ExecuteProcess(
         condition=IfCondition(use_simulator),
@@ -210,6 +217,7 @@ def generate_launch_description():
     bringup_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(launch_dir, 'bringup_launch.py')),
+        condition=UnlessCondition(no_bt),
         launch_arguments={'namespace': namespace,
                           'use_namespace': use_namespace,
                           'slam': slam,

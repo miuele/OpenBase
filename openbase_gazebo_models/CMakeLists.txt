@@ -51,6 +51,7 @@ add_xacro_model_file(indep_steer)
 
 add_xacro_model_file(primitive_omni_wheel)
 add_xacro_model_file(omni4)
+add_xacro_model_file(multi_laser)
 
 install(
 	DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/models

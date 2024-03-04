@@ -29,6 +29,7 @@ function(add_xacro_urdf_file MODEL_NAME)
 endfunction()
 
 add_xacro_urdf_file(nav_omni4)
+add_xacro_urdf_file(multi_laser)
 
 install(
 	DIRECTORY urdf launch params rviz worlds
