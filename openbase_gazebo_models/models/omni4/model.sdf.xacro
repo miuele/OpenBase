@@ -41,25 +41,25 @@
 		<include>
 			<name>simple_omni_wheel_front_left_model</name>
 			<uri>model://primitive_omni_wheel</uri>
-			<pose>${box_r*cos(pi*1/4)} ${box_r*sin(pi*1/4)} 0 0 0 ${pi*3/4}</pose>
+			<pose>${box_r*cos(pi*1/4)} ${box_r*sin(pi*1/4)} 0 0 0 ${-pi*1/4}</pose>
 		</include>
 
 		<include>
 			<name>simple_omni_wheel_back_left_model</name>
 			<uri>model://primitive_omni_wheel</uri>
-			<pose>${box_r*cos(pi*3/4)} ${box_r*sin(pi*3/4)} 0 0 0 ${pi*5/4}</pose>
+			<pose>${box_r*cos(pi*3/4)} ${box_r*sin(pi*3/4)} 0 0 0 ${pi*1/4}</pose>
 		</include>
 
 		<include>
 			<name>simple_omni_wheel_back_right_model</name>
 			<uri>model://primitive_omni_wheel</uri>
-			<pose>${box_r*cos(pi*5/4)} ${box_r*sin(pi*5/4)} 0 0 0 ${pi*7/4}</pose>
+			<pose>${box_r*cos(pi*5/4)} ${box_r*sin(pi*5/4)} 0 0 0 ${pi*3/4}</pose>
 		</include>
 
 		<include>
 			<name>simple_omni_wheel_front_right_model</name>
 			<uri>model://primitive_omni_wheel</uri>
-			<pose>${box_r*cos(pi*7/4)} ${box_r*sin(pi*7/4)} 0 0 0 ${pi*1/4}</pose>
+			<pose>${box_r*cos(pi*7/4)} ${box_r*sin(pi*7/4)} 0 0 0 ${-pi*3/4}</pose>
 		</include>
 
 		<xacro:macro name="body_omni_conn" params="prefix omni_link">
@@ -135,7 +135,18 @@
 			<joint>front_right_rotational_joint</joint>
 			<joint>back_left_rotational_joint</joint>
 			<joint>back_right_rotational_joint</joint>
-			<wheel_radius>0.06</wheel_radius>
+			<wheel_radius>0.063</wheel_radius>
+		</plugin>
+
+		<plugin name="wheel_odometry" filename="libgazebo_ros_wheel_odometry.so">
+			<update_rate>30.0</update_rate>
+			<publish_odom_msg>true</publish_odom_msg>
+			<publish_tf>true</publish_tf>
+			<robot_base_frame>base_link</robot_base_frame>
+			<joint>front_left_rotational_joint</joint>
+			<joint>back_left_rotational_joint</joint>
+			<joint>back_right_rotational_joint</joint>
+			<joint>front_right_rotational_joint</joint>
 		</plugin>
 	</model>
 </sdf>

@@ -62,7 +62,8 @@ public:
 			return;
 		}
 
-		constexpr double l = 0.15;
+		//constexpr double l = 0.12;
+		constexpr double l = 0.3818;
 
 		{
 			std::lock_guard<std::mutex> lock(mutex_);

@@ -14,6 +14,7 @@
 		)) }"/>
 	-->
 
+	<!--
 	<xacro:property name="omni_wheel_params" value="${
 		xacro.dotify(dict(
 			rim_radius=0.06, rim_length=0.029,
@@ -22,6 +23,7 @@
 			rim_mass=0.30, roller_mass=0.03,
 			num_rollers=4
 		)) }"/>
+	-->
 
 	<!--
 	<xacro:property name="omni_wheel_params" value="${
@@ -34,7 +36,6 @@
 		)) }"/>
 	-->
 
-	<!--
 	<xacro:property name="omni_wheel_params" value="${
 		xacro.dotify(dict(
 			rim_radius=0.06, rim_length=0.025,
@@ -43,7 +44,6 @@
 			rim_mass=0.30, roller_mass=0.01,
 			num_rollers=16
 		)) }"/>
-	-->
 
 	<xacro:omni_wheel_model name="primitive_omni_wheel_model" params="${
 		xacro.dotify(
