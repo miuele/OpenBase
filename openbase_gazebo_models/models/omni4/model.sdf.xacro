@@ -8,6 +8,7 @@
 		<xacro:property name="box_inertia" value="${xacro.dotify(cuboid_inertia(box_mass, box_geom.wx, box_geom.wy, box_geom.wz))}"/>
 
 		<xacro:property name="box_r" value="${hypot(box_geom.wx/2, box_geom.wy/2)}"/>
+		<xacro:property name="wheel_r" value="0.063"/>
 
 		<pose>0 0 0.2 0 0 0</pose>
 
@@ -135,7 +136,7 @@
 			<joint>front_right_rotational_joint</joint>
 			<joint>back_left_rotational_joint</joint>
 			<joint>back_right_rotational_joint</joint>
-			<wheel_radius>0.063</wheel_radius>
+			<wheel_radius>${wheel_r}</wheel_radius>
 		</plugin>
 
 		<plugin name="wheel_odometry" filename="libgazebo_ros_wheel_odometry.so">
@@ -147,6 +148,9 @@
 			<joint>back_left_rotational_joint</joint>
 			<joint>back_right_rotational_joint</joint>
 			<joint>front_right_rotational_joint</joint>
+			<row>${-wheel_r/(2*sqrt(2))} ${-wheel_r/(2*sqrt(2))} ${wheel_r/(2*sqrt(2))} ${wheel_r/(2*sqrt(2))}</row>
+			<row>${wheel_r/(2*sqrt(2))} ${-wheel_r/(2*sqrt(2))} ${-wheel_r/(2*sqrt(2))} ${wheel_r/(2*sqrt(2))}</row>
+			<row>${wheel_r/(4*box_r)} ${wheel_r/(4*box_r)} ${wheel_r/(4*box_r)} ${wheel_r/(4*box_r)}</row>
 		</plugin>
 	</model>
 </sdf>

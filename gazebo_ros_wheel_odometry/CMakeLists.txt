@@ -11,6 +11,7 @@ find_package(geometry_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
+find_package(Boost REQUIRED)
 
 add_library(gazebo_ros_wheel_odometry SHARED src/gazebo_ros_wheel_odometry.cc)
 

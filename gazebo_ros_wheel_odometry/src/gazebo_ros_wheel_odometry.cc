@@ -2,6 +2,9 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <charconv>
+
+#include <boost/algorithm/string.hpp>
 
 #include <gazebo/gazebo.hh>
 #include <gazebo/physics/Model.hh>
@@ -48,14 +51,23 @@ struct WheelOdometry {
 	{
 	}
 
-	odometry_2d update(const std::vector<double> &v) {
+	odometry_2d update(const std::vector<double> &omegas, const std::vector<double> &tr) {
 
+		/*
 		//double l = 0.12;
 		double l = 0.3818;
 
 		double rel_x_dot = (-v[0] - v[1] + v[2] + v[3]) / (2 * std::sqrt(2));
 		double rel_y_dot = ( v[0] - v[1] - v[2] + v[3]) / (2 * std::sqrt(2));
 		double yaw_dot = ( v[0] + v[1] + v[2] + v[3]) / (4 * l);
+		*/
+		double rel_x_dot = 0.0, rel_y_dot = 0.0, yaw_dot = 0.0;
+		auto n = std::size(omegas);
+		for (std::size_t i = 0; i < n; ++i) {
+			rel_x_dot += tr[0 * n + i] * omegas[i];
+			rel_y_dot += tr[1 * n + i] * omegas[i];
+			yaw_dot += tr[2 * n + i] * omegas[i];
+		}
 
 		double x_dot = std::cos(yaw_) * rel_x_dot - std::sin(yaw_) * rel_y_dot;
 		double y_dot = std::cos(yaw_) * rel_y_dot + std::sin(yaw_) * rel_x_dot;
@@ -64,7 +76,7 @@ struct WheelOdometry {
 		y_ += y_dot * delta_t_;
 		yaw_ += yaw_dot * delta_t_;
 
-		return {x_, y_, yaw_, x_dot, y_dot, yaw_dot};
+		return {x_, y_, yaw_, rel_x_dot, rel_y_dot, yaw_dot};
 	}
 
 	double delta_t_;
@@ -144,6 +156,27 @@ public:
 			joints_.push_back(joint);
 		}
 
+		unsigned int num_rows = 0;
+		for (auto row_elem = sdf->GetElement("row")
+			; row_elem != nullptr
+			; row_elem = row_elem->GetNextElement("row"))
+		{
+			auto row = row_elem->Get<std::string>();
+			std::vector<std::string> pieces;
+			boost::split(pieces, row, boost::is_any_of(" "));
+			if (std::size(pieces) != std::size(joints_)) {
+				std::cerr << "bad number of columns" << std::endl;
+			}
+			for (const auto &piece : pieces) {
+				translation_.push_back(0.0);
+				std::from_chars(piece.data(), piece.data() + piece.size(), translation_.back());
+			}
+			++num_rows;
+		}
+		if (num_rows != 3) {
+			std::cerr << "bad number of rows" << std::endl;
+		}
+
 		wheel_odom_ = WheelOdometry(update_period_);
 
 		last_update_time_ = model->GetWorld()->SimTime();
@@ -163,13 +196,13 @@ public:
 		const auto current_time_msg = gazebo_ros::Convert<builtin_interfaces::msg::Time>(current_time);
 		//odometry_2d odom = compute_world_odometry(model_);
 		//const double r = 0.0229;
-		const double r = 0.063;
-		odometry_2d odom = wheel_odom_->update({
-				joints_[0]->GetVelocity(0) * r,
-				joints_[1]->GetVelocity(0) * r,
-				joints_[2]->GetVelocity(0) * r,
-				joints_[3]->GetVelocity(0) * r,
-				});
+		//const double r = 0.063;
+
+		std::vector<double> joint_velocities;
+		for (const auto &joint : joints_) {
+			joint_velocities.push_back(joint->GetVelocity(0));
+		}
+		odometry_2d odom = wheel_odom_->update(joint_velocities, translation_);
 		tf2::Quaternion q;
 		q.setRPY(0, 0, odom.yaw);
 
@@ -223,6 +256,7 @@ private:
 
 	std::vector<physics::JointPtr> joints_;
 	std::optional<WheelOdometry> wheel_odom_;
+	std::vector<double> translation_;
 };
 
 GZ_REGISTER_MODEL_PLUGIN(GazeboRosWheelOdometry);
